@@ -1,8 +1,11 @@
 import { RouteObject } from 'react-router-dom';
 
+import ClientDetail from '@/app/client/ClientDetail';
 import ClientPage from '@/app/client/ClientPage';
+import EmployeeDetail from '@/app/employee/EmployeeDetail';
 import EmployeePage from '@/app/employee/EmployeePage';
 import ErrorBoundaryPage from '@/app/errorBoundary/ErrorBoundaryPage';
+import InvoiceDetail from '@/app/invoice/InvoiceDetail';
 import InvoicePage from '@/app/invoice/InvoicePage';
 import ProductDetail from '@/app/product/ProductDetail';
 // import WithSuspense from '@/components/with-suspense';
@@ -42,15 +45,26 @@ export const  loggedInRoutes: RouteObject[] = [
     errorElement: <ErrorBoundaryPage />,
   },
   {
-    path: "/clients",
+    path: "/invoices/:id",
+    element: <InvoiceDetail />,
+    errorElement: <ErrorBoundaryPage />,
+  },
+  {
+    path: CLIENT_PATH,
     element: <ClientPage />,
+    errorElement: <ErrorBoundaryPage />,
+  },
+  {
+    path: "/clients/:id",
+    element: <ClientDetail />,
     errorElement: <ErrorBoundaryPage />,
   },
   {
     path: EMPLOYEE_PATH,
     element: <EmployeePage />,
     errorElement: <ErrorBoundaryPage />,
-  }  ,{
+  },
+  {
     path: "/products/add",
     element: <ProductCreate />,
     errorElement: <ErrorBoundaryPage />,
@@ -59,7 +73,11 @@ export const  loggedInRoutes: RouteObject[] = [
     element: <ClientCreate />,
     errorElement: <ErrorBoundaryPage />,
   },
-
+  {
+    path: "/employees/:id",
+    element: <EmployeeDetail />,
+    errorElement: <ErrorBoundaryPage />,
+  }
 ];
 
 // export const AuthenticatedRoutes: RouteObject[] = loggedInRoutes.map(
