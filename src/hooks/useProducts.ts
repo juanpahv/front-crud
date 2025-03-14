@@ -31,6 +31,7 @@ const fetchProducts = async (): Promise<AxiosResponse<Product[], any>> => {
   return await client.get<Product[]>(PRODUCT_PATH);
 };
 
+
 export const useFetchProducts = (): QueryObserverResult<Product[], any> => {
   return useQuery<Product[], any>({
     queryFn: async () => {
@@ -59,5 +60,26 @@ export const useDeleteProduct = (): UseBaseMutationResult<
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
     },	
+  });
+};
+
+const addProduct = async (
+  productData: Product
+): Promise<AxiosResponse<Product, any>> => {
+  return await client.post<Product>(PRODUCT_PATH, productData);
+};
+
+export const useAddProduct = (): UseBaseMutationResult<
+  AxiosResponse<Product, any>,
+  unknown,
+  Product,
+  unknown
+> => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (productData: Product) => addProduct(productData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
+    },
   });
 };

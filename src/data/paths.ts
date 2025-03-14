@@ -4,3 +4,4 @@ export const CLIENT_PATH = '/clients';
 export const EMPLOYEE_PATH = '/employees';
 export const INVOICE_PATH = '/invoices';
 export const STATUS_PATH = '/status';
+export const PRODUCT_ADD_PATH = '/products/add';

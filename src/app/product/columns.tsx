@@ -80,3 +80,5 @@ export const columns = (
     },
   },
 ];
+
+export type { Product };
