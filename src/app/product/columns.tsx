@@ -44,10 +44,6 @@ export const columns = (
     },
   },
   {
-    accessorKey: 'category',
-    header: 'Category',
-  },
-  {
     id: 'actions',
     cell: ({ row }) => {
       const { id } = row.original;

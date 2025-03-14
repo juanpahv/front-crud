@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal, Trash } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -52,7 +53,9 @@ export const columns = (
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>View details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link to={`/employees/${id}`}>View details</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <span className="text-red-500">
               <DropdownMenuItem onClick={() => deleteEmployee(id)}>
