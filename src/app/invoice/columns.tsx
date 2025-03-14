@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal, Trash } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -39,11 +40,11 @@ export const columns = (
           <div className="text-sm text-gray-500">{lastName}</div>
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: 'status',
-    header: 'Status'
+    header: 'Status',
   },
   {
     id: 'actions',
@@ -61,7 +62,9 @@ export const columns = (
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>View details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link to={`/invoices/${id}`}>View details</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <span className="text-red-500">
               <DropdownMenuItem onClick={() => deleteInvoice(id)}>
