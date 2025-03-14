@@ -1,5 +1,4 @@
-import { useRef, useEffect } from 'react';
-
+import { useState, useEffect, useRef } from 'react';
 import { BorderLine } from '@/components/border-line';
 import { FormContainer } from '@/components/form-container';
 import { RowContainer } from '@/components/row-container';
@@ -24,32 +23,47 @@ type ProductInput = {
 export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Set up form state using useState
+  const [formData, setFormData] = useState<ProductInput>({
+    name: '',
+    quantity: 0,
+    price: 0,
+    description: '',
+    category: '',
+  });
+
   useEffect(() => {
-    if (productInput && formRef.current) {
-      const form = formRef.current;
-      (form.elements.namedItem('name') as HTMLInputElement).value = productInput.name;
-      (form.elements.namedItem('quantity') as HTMLInputElement).value = productInput.quantity.toString();
-      (form.elements.namedItem('price') as HTMLInputElement).value = productInput.price.toString();
-      (form.elements.namedItem('description') as HTMLInputElement).value = productInput.description;
-      (form.elements.namedItem('category') as HTMLInputElement).value = String(productInput.category);
+    // If editing, populate form with existing product data
+    if (productInput) {
+      setFormData({
+        name: productInput.name || '',
+        quantity: productInput.quantity || 0,
+        price: productInput.price || 0,
+        description: productInput.description || '',
+        category: String(productInput.category || ''),
+      });
     }
   }, [productInput]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!formRef.current) return;
-
-    const formData = new FormData(formRef.current);
-    const input: ProductInput = {
-      name: formData.get('name') as string,
-      quantity: Number(formData.get('quantity')),
-      price: Number(formData.get('price')),
-      description: formData.get('description') as string,
-      category: String(formData.get('category')),
-    };
-
-    handleSubmit(input);
-    formRef.current.reset();
+    handleSubmit(formData);
+    formRef.current?.reset();
+    setFormData({
+      name: '',
+      quantity: 0,
+      price: 0,
+      description: '',
+      category: '',
+    });
   };
 
   return (
@@ -67,6 +81,9 @@ export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
           maxLength={50}
           hasValue
           required
+          name="name"
+          value={formData.name}
+          onChange={handleChange} // Handle change event
         />
         <CustomInput
           label="Cantidad"
@@ -75,6 +92,9 @@ export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
           maxLength={50}
           hasValue
           required
+          name="quantity"
+          value={formData.quantity}
+          onChange={handleChange} // Handle change event
         />
         <CustomInput
           label="Precio"
@@ -83,6 +103,9 @@ export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
           maxLength={50}
           hasValue
           required
+          name="price"
+          value={formData.price}
+          onChange={handleChange} // Handle change event
         />
         <CustomInput
           label="Descripción"
@@ -91,6 +114,9 @@ export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
           maxLength={50}
           hasValue
           required
+          name="description"
+          value={formData.description}
+          onChange={handleChange} // Handle change event
         />
         <CustomInput
           label="Categoría"
@@ -99,6 +125,9 @@ export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
           maxLength={50}
           hasValue
           required
+          name="category"
+          value={formData.category}
+          onChange={handleChange} // Handle change event
         />
 
         <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">
