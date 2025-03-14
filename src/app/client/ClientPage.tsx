@@ -14,7 +14,7 @@ function ClientPage() {
       <h1 className="text-2xl font-semibold">Clients</h1>
       <div className="flex justify-end">
         <Button variant="default">
-          <NavLink to="/products/add">Add Client</NavLink>
+          <NavLink to="/clients/add">Add Client</NavLink>
         </Button>
       </div>
       <div className="mt-5">

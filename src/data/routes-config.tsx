@@ -11,9 +11,11 @@ import { LazyComponents } from '@/data/lazy-components';
 import { CLIENT_PATH, EMPLOYEE_PATH, INVOICE_PATH, PRODUCT_PATH } from './paths'; 
 import ProductPage from '@/app/product/ProductPage';
 import ProductCreate from '@/app/product/ProductCreate';
+import { ClientForm } from '@/app/client/client-form';
+import ClientCreate from '@/app/client/clientCreate';
 // const { ProductPage } = LazyComponents;
 
-export const loggedInRoutes: RouteObject[] = [
+export const  loggedInRoutes: RouteObject[] = [
   {
     path: "/products",
     element: <ProductPage />,
@@ -51,6 +53,10 @@ export const loggedInRoutes: RouteObject[] = [
   }  ,{
     path: "/products/add",
     element: <ProductCreate />,
+    errorElement: <ErrorBoundaryPage />,
+  },{
+    path: "/clients/add",
+    element: <ClientCreate />,
     errorElement: <ErrorBoundaryPage />,
   },
 
