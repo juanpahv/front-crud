@@ -1,80 +1,139 @@
-// import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { BorderLine } from '@/components/border-line';
+import { FormContainer } from '@/components/form-container';
+import { RowContainer } from '@/components/row-container';
+import { Title } from '@/components/title';
+import { CustomInput } from '@/components/ui/custom-input';
+import { Product } from '../types';
 
-// import { BorderLine } from '@/components/border-line';
-// import { FormContainer } from '@/components/form-container';
-// import { RowContainer } from '@/components/row-container';
-// import { Title } from '@/components/title';
-// import { CustomInput } from '@/components/ui/custom-input';
+type Props = {
+  action: 'add' | 'edit';
+  productInput?: Product;
+  handleSubmit: (input: ProductInput) => void;
+};
 
-// import { Product } from './columns';
+type ProductInput = {
+  name: string;
+  quantity: number;
+  price: number;
+  description: string;
+  category: string;
+};
 
-// type Props = {
-//   action: string;
-//   productInput: Product | undefined;
-//   handleSubmit: (input: ProductInput) => void;
-// };
+export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
+  const formRef = useRef<HTMLFormElement>(null);
 
-// type ProductInput = {
-//   name: string;
-//   quantity: number;
-//   price: number;
-//   description: string;
-//   category: string;
-// }
+  // Set up form state using useState
+  const [formData, setFormData] = useState<ProductInput>({
+    name: '',
+    quantity: 0,
+    price: 0,
+    description: '',
+    category: '',
+  });
 
-// export const ProductForm = ({ productInput, handleSubmit, action }: Props) => {
-//   const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    // If editing, populate form with existing product data
+    if (productInput) {
+      setFormData({
+        name: productInput.name || '',
+        quantity: productInput.quantity || 0,
+        price: productInput.price || 0,
+        description: productInput.description || '',
+        category: String(productInput.category || ''),
+      });
+    }
+  }, [productInput]);
 
-//   return (
-//     <>
-//       <FormContainer ref={formRef} onSubmit={(input: ProductInput) => handleSubmit(input)}>
-//         <RowContainer>
-//           <Title>New Product</Title>
-//         </RowContainer>
-//         <BorderLine />
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-//         <CustomInput
-//           label="Name"
-//           type="text"
-//           placeholder="Name"
-//           maxLength={50}
-//           hasValue
-//           required
-//         />
-//         <CustomInput
-//           label="Quantity"
-//           type="number"
-//           placeholder="Quantity"
-//           maxLength={50}
-//           hasValue
-//           required
-//         />
-//         <CustomInput
-//           label="Price"
-//           type="number"
-//           placeholder="Price"
-//           maxLength={50}
-//           hasValue
-//           required
-//         />
-//         <CustomInput
-//           label="Description"
-//           type="text"
-//           placeholder="Description"
-//           maxLength={50}
-//           hasValue
-//           required
-//         />
-//         <CustomInput
-//           label="Category"
-//           type="text"
-//           placeholder="Category"
-//           maxLength={50}
-//           hasValue
-//           required
-//         />
-//         <button type="submit">Submit</button>
-//       </FormContainer>
-//     </>
-//   );
-// };
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleSubmit(formData);
+    formRef.current?.reset();
+    setFormData({
+      name: '',
+      quantity: 0,
+      price: 0,
+      description: '',
+      category: '',
+    });
+  };
+
+  return (
+    <>
+      <FormContainer ref={formRef} onSubmit={onSubmit}>
+        <RowContainer>
+          <Title>{action === 'add' ? 'Agregar Producto' : 'Editar Producto'}</Title>
+        </RowContainer>
+        <BorderLine />
+
+        <CustomInput
+          label="Nombre"
+          type="text"
+          placeholder="Nombre"
+          maxLength={50}
+          hasValue
+          required
+          name="name"
+          value={formData.name}
+          onChange={handleChange} // Handle change event
+        />
+        <CustomInput
+          label="Cantidad"
+          type="number"
+          placeholder="Cantidad"
+          maxLength={50}
+          hasValue
+          required
+          name="quantity"
+          value={formData.quantity}
+          onChange={handleChange} // Handle change event
+        />
+        <CustomInput
+          label="Precio"
+          type="number"
+          placeholder="Precio"
+          maxLength={50}
+          hasValue
+          required
+          name="price"
+          value={formData.price}
+          onChange={handleChange} // Handle change event
+        />
+        <CustomInput
+          label="Descripción"
+          type="text"
+          placeholder="Descripción"
+          maxLength={50}
+          hasValue
+          required
+          name="description"
+          value={formData.description}
+          onChange={handleChange} // Handle change event
+        />
+        <CustomInput
+          label="Categoría"
+          type="text"
+          placeholder="Categoría"
+          maxLength={50}
+          hasValue
+          required
+          name="category"
+          value={formData.category}
+          onChange={handleChange} // Handle change event
+        />
+
+        <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">
+          {action === 'add' ? 'Agregar Producto' : 'Actualizar Producto'}
+        </button>
+      </FormContainer>
+    </>
+  );
+};
