@@ -1,5 +1,4 @@
 import { Package, Home, Receipt, UserRound } from "lucide-react"
-import { NavLink } from "react-router-dom"
 
 import {
   Sidebar,
@@ -11,14 +10,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { EMPLOYEE_PATH, INVOICE_PATH, PRODUCT_PATH } from "@/data/paths"
+import { CLIENT_PATH, EMPLOYEE_PATH, INVOICE_PATH, PRODUCT_PATH } from "@/data/paths"
 
 const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
   {
     title: "Products",
     url: PRODUCT_PATH,
@@ -28,6 +22,11 @@ const items = [
     title: "Inovices",
     url: INVOICE_PATH,
     icon: Receipt,
+  },
+  {
+    title: "Clients",
+    url: CLIENT_PATH,
+    icon: UserRound,
   },
   {
     title: "Employees",

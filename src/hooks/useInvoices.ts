@@ -13,6 +13,20 @@ import { INVOICE_PATH } from '@/data/paths';
 
 const queryKey = 'invoices';
 
+const fetchInvoice = async (id: number): Promise<AxiosResponse<Invoice, any>> => {
+  return await client.get<Invoice>(`${INVOICE_PATH}/${id}`);
+}
+
+export const useFetchInvoice = (id: number): QueryObserverResult<Invoice, any> => {
+  return useQuery<Invoice, any>({
+    queryFn: async () => {
+      const { data } = await fetchInvoice(id);
+      return data;
+    },
+    queryKey: ['invoice', id],
+  });
+};
+
 const fetchInvoices = async (): Promise<AxiosResponse<Invoice[], any>> => {
   return await client.get<Invoice[]>(INVOICE_PATH);
 };

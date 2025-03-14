@@ -13,6 +13,20 @@ import { PRODUCT_PATH } from '@/data/paths';
 
 const queryKey = 'products';
 
+const fetchProduct = async (id: number): Promise<AxiosResponse<Product, any>> => {
+  return await client.get<Product>(`${PRODUCT_PATH}/${id}`);
+}
+
+export const useFetchProduct = (id: number): QueryObserverResult<Product, any> => {
+  return useQuery<Product, any>({
+    queryFn: async () => {
+      const { data } = await fetchProduct(id);
+      return data;
+    },
+    queryKey: ['product', id],
+  });
+};
+
 const fetchProducts = async (): Promise<AxiosResponse<Product[], any>> => {
   return await client.get<Product[]>(PRODUCT_PATH);
 };

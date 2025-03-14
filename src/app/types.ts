@@ -2,7 +2,7 @@ export type Invoice = {
   id: number;
   total: number;
   balance: number;
-  client: Client
+  client: Client;
   status: Status;
 };
 
